@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from "next-auth/react";
+import Nav from "@/components/Nav";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -17,8 +18,9 @@ export default function Home() {
     );
   }
   return (
-    <div className="bg-blue-900 min-h-screen">
-      <div>logged in {session.user.email}</div>
+    <div className="bg-blue-900 min-h-screen flex">
+    <Nav/>
+      <div className="bg-white flex-grow mt-1 mr-2 mb-0 rounded-lg p-4">logged in {session.user.email}</div>
     </div>
   );
 }

@@ -1,3 +1,5 @@
+# Tailwind
+# NextJS
 # NextAuth 
 # GoogleCloudPlatform
 ## npm install -D tailwindcss postcss autoprefixer
