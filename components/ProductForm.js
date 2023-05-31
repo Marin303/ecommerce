@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
@@ -26,9 +27,9 @@ export default function ProductForm({
         } else{
             //create
             await axios.post('/api/products', data)
-            setGoToProduct(true)
+            
         }
-        
+             setGoToProduct(true)
 
     }
     if(goToProduct){
