@@ -8,3 +8,6 @@
 ## npm install next-auth @next-auth/mongodb-adapter mongodb
 ## npm install axios
 ## npm install mongoose
+## npm install multiparty
+## npm install @aws-sdk/client-s3
+## npm install mime-types
