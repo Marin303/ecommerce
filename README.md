@@ -12,3 +12,4 @@
 ## npm install @aws-sdk/client-s3
 ## npm install mime-types
 ## npm install react-spinners
+## npm install react-sortablejs
