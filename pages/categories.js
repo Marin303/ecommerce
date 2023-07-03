@@ -60,8 +60,27 @@ function Categories({ swal }) {
     });
   }
   function handlePropertyNameChange(index, property, newName) {
-    console.log({index, property,newName});
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index].name = newName;
+      return properties;
+    });
   }
+  function handlePropertyValuesChange(index, property, newValues) {
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index].values = newValues;
+      return properties;
+    });
+  }
+  function removeProperty(indexToRemove) {
+    setProperties((prev) => {
+      return [...prev].filter((p, pIndex) => {
+        return pIndex !== indexToRemove;
+      });
+    });
+  }
+
   return (
     <Layout>
       <h1>Categories</h1>
@@ -96,63 +115,95 @@ function Categories({ swal }) {
           <button
             onClick={addProperty}
             type="button"
-            className="btn-default text-sm"
+            className="btn-default text-sm mb-2"
           >
             Add new property
           </button>
           {properties.length > 0 &&
             properties.map((property, index) => (
-              <div className="flex gap-1">
+              <div className="flex gap-1 mb-2">
                 <input
+                  className="mb-0"
                   value={property.name}
-                  onChange={ev => handlePropertyNameChange(index, property, ev.target.value)}
+                  onChange={(ev) =>
+                    handlePropertyNameChange(index, property, ev.target.value)
+                  }
                   type="text"
                   placeholder="property name (example:color)"
                 />
                 <input
+                  className="mb-0"
                   value={property.values}
+                  onChange={(ev) =>
+                    handlePropertyValuesChange(index, property, ev.target.value)
+                  }
                   type="text"
                   placeholder="values, comma separeted"
                 />
+                <button
+                  type="button"
+                  onClick={() => removeProperty(index)}
+                  className="btn-default"
+                >
+                  Remove
+                </button>
               </div>
             ))}
         </div>
-        <button className="btn-primary py-1" type="submit">
-          Save
-        </button>
+        <div className="flex gap-1">
+          {editedCategory && (
+            <button
+              className="btn-default"
+              type="button"
+              onClick={() => {
+              setEditedCategory(null)
+              setName("")
+              setParentCategory("")
+              }}
+            >
+              Cancel
+            </button>
+          )}
+          <button className="btn-primary py-1" type="submit">
+            Save
+          </button>
+        </div>
       </form>
-      <table className="basic mt-4">
-        <thead>
-          <tr>
-            <td>Category name</td>
-            <td>Parent Category</td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.length > 0 &&
-            categories.map((category) => (
-              <tr key={category._id}>
-                <td>{category.name}</td>
-                <td>{category?.parent?.name}</td>
-                <td>
-                  <button
-                    onClick={() => editCategory(category)}
-                    className="btn-primary mr-1"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn-primary"
-                    onClick={() => deleteCategory(category)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+
+      {!editedCategory && (
+        <table className="basic mt-4">
+          <thead>
+            <tr>
+              <td>Category name</td>
+              <td>Parent Category</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.length > 0 &&
+              categories.map((category) => (
+                <tr key={category._id}>
+                  <td>{category.name}</td>
+                  <td>{category?.parent?.name}</td>
+                  <td>
+                    <button
+                      onClick={() => editCategory(category)}
+                      className="btn-primary mr-1"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn-primary"
+                      onClick={() => deleteCategory(category)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      )}
     </Layout>
   );
 }
